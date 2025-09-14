@@ -1,0 +1,44 @@
+{
+  "name": "quality-automation-template",
+  "version": "1.0.0",
+  "description": "Reusable quality automation setup with GitHub Actions, Husky, lint-staged, and Prettier",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "echo 'Add your linting command here'",
+    "test": "echo 'Add your testing command here'",
+    "setup": "node setup.js"
+  },
+  "keywords": [
+    "quality",
+    "automation",
+    "prettier",
+    "husky",
+    "lint-staged",
+    "github-actions",
+    "template"
+  ],
+  "author": "Brett Stark",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0"
+  },
+  "lint-staged": {
+    "package.json": [
+      "prettier --write"
+    ],
+    "**/*.{js,html}": [
+      "prettier --write"
+    ],
+    "**/*.css": [
+      "prettier --write"
+    ],
+    "**/*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
