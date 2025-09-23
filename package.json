@@ -7,7 +7,8 @@
     "prepare": "husky install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "echo 'Add your linting command here'",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint \"**/*.css\"",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint \"**/*.css\" --fix",
     "test": "echo 'Add your testing command here'",
     "setup": "node setup.js"
   },
@@ -28,7 +29,10 @@
   "devDependencies": {
     "husky": "^8.0.0",
     "lint-staged": "^15.0.0",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "eslint": "^8.57.0",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0"
   },
   "volta": {
     "node": "20.11.1",
@@ -38,13 +42,15 @@
     "package.json": [
       "prettier --write"
     ],
-    "**/*.{js,html}": [
+    "**/*.{js,jsx,ts,tsx,html}": [
+      "eslint --fix",
       "prettier --write"
     ],
     "**/*.css": [
+      "stylelint --fix",
       "prettier --write"
     ],
-    "**/*.{json,md}": [
+    "**/*.{json,md,yml,yaml}": [
       "prettier --write"
     ]
   }

@@ -39,7 +39,9 @@ packageJson.scripts = {
   ...packageJson.scripts,
   prepare: 'husky install',
   'format': 'prettier --write .',
-  'format:check': 'prettier --check .'
+  'format:check': 'prettier --check .',
+  'lint': 'eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint "**/*.css"',
+  'lint:fix': 'eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint "**/*.css" --fix'
 }
 
 // Add devDependencies
@@ -48,15 +50,18 @@ packageJson.devDependencies = {
   ...packageJson.devDependencies,
   husky: '^8.0.0',
   'lint-staged': '^15.0.0',
-  prettier: '^3.0.0'
+  prettier: '^3.0.0',
+  eslint: '^8.57.0',
+  stylelint: '^16.2.1',
+  'stylelint-config-standard': '^36.0.0'
 }
 
 // Add lint-staged configuration
 console.log('⚙️ Adding lint-staged configuration...')
 packageJson['lint-staged'] = {
   'package.json': ['prettier --write'],
-  '**/*.{js,jsx,ts,tsx}': ['prettier --write'],
-  '**/*.{html,css,scss}': ['prettier --write'],
+  '**/*.{js,jsx,ts,tsx,html}': ['eslint --fix', 'prettier --write'],
+  '**/*.{css,scss}': ['stylelint --fix', 'prettier --write'],
   '**/*.{json,md,yml,yaml}': ['prettier --write']
 }
 
@@ -90,7 +95,29 @@ if (!fs.existsSync(prettierrcPath)) {
     'utf8'
   )
   fs.writeFileSync(prettierrcPath, templatePrettierrc)
-  console.log('✅ Added Prettier configuration')
+console.log('✅ Added Prettier configuration')
+}
+
+// Copy ESLint config if it doesn't exist
+const eslintrcPath = path.join(process.cwd(), '.eslintrc.json')
+if (!fs.existsSync(eslintrcPath)) {
+  const templateEslint = fs.readFileSync(
+    path.join(__dirname, '.eslintrc.json'),
+    'utf8'
+  )
+  fs.writeFileSync(eslintrcPath, templateEslint)
+  console.log('✅ Added ESLint configuration')
+}
+
+// Copy Stylelint config if it doesn't exist
+const stylelintrcPath = path.join(process.cwd(), '.stylelintrc.json')
+if (!fs.existsSync(stylelintrcPath)) {
+  const templateStylelint = fs.readFileSync(
+    path.join(__dirname, '.stylelintrc.json'),
+    'utf8'
+  )
+  fs.writeFileSync(stylelintrcPath, templateStylelint)
+  console.log('✅ Added Stylelint configuration')
 }
 
 // Copy .prettierignore if it doesn't exist
