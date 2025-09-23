@@ -152,6 +152,11 @@ Add conflicting formatters to `.prettierignore` or configure them to work togeth
 ### GitHub Actions Not Running
 Ensure your repository has Actions enabled in Settings > Actions.
 
+### Vercel Runtime (Note)
+- Prefer auto‑detection of Node from `package.json` `engines` when deploying to Vercel.
+- Avoid hard‑coding a `runtime` value in `vercel.json` unless confirmed against current Vercel docs — incorrect values can break deploys.
+- The template pins Node 20 for local/CI via `.nvmrc`, `engines`, and optional Volta; this is independent of Vercel’s runtime.
+
 ## 🔄 Updating the Template
 
 To update an existing project with new template features:
