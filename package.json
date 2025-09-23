@@ -7,8 +7,8 @@
     "prepare": "husky install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint \"**/*.css\"",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint \"**/*.css\" --fix",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint \"**/*.{css,scss}\"",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint \"**/*.{css,scss}\" --fix",
     "test": "echo 'Add your testing command here'",
     "setup": "node setup.js"
   },

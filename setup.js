@@ -40,8 +40,8 @@ packageJson.scripts = {
   prepare: 'husky install',
   'format': 'prettier --write .',
   'format:check': 'prettier --check .',
-  'lint': 'eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint "**/*.css"',
-  'lint:fix': 'eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint "**/*.css" --fix'
+  'lint': 'eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint "**/*.{css,scss}"',
+  'lint:fix': 'eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint "**/*.{css,scss}" --fix'
 }
 
 // Add devDependencies
@@ -129,6 +129,17 @@ if (!fs.existsSync(prettierignorePath)) {
   )
   fs.writeFileSync(prettierignorePath, templatePrettierignore)
   console.log('✅ Added Prettier ignore file')
+}
+
+// Copy ESLint ignore if it doesn't exist
+const eslintignorePath = path.join(process.cwd(), '.eslintignore')
+if (!fs.existsSync(eslintignorePath)) {
+  const templateEslintIgnore = fs.readFileSync(
+    path.join(__dirname, '.eslintignore'),
+    'utf8'
+  )
+  fs.writeFileSync(eslintignorePath, templateEslintIgnore)
+  console.log('✅ Added ESLint ignore file')
 }
 
 console.log('\n🎉 Quality automation setup complete!')
