@@ -15,13 +15,13 @@ A comprehensive, reusable template for setting up quality automation in any proj
 
 ### Option 1: Interactive Setup (Recommended)
 
-1. **Clone or download** this template to your machine
+1. **Clone or download** this template to your machine (Node 20+)
 2. **Navigate to your project** directory (must be a git repository)
 3. **Run the setup script:**
    ```bash
    node /path/to/quality-automation-template/setup.js
    ```
-4. **Install dependencies:**
+4. **Install dependencies (Node 20 recommended):**
    ```bash
    npm install
    ```
@@ -61,6 +61,14 @@ your-project/
 ```
 
 ## ⚙️ Configuration
+
+### Node Version
+- This template pins Node to version 20 for local dev and CI.
+- Tools included:
+  - `.nvmrc` → auto-switch with `nvm use`
+  - `package.json` → `engines.node ">=20"` and Volta pin for Node/npm
+  - `.npmrc` → `engine-strict = true` to enforce engine checks
+
 
 ### Prettier Configuration (`.prettierrc`)
 ```json

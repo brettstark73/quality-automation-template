@@ -22,10 +22,17 @@
   ],
   "author": "Brett Stark",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "husky": "^8.0.0",
     "lint-staged": "^15.0.0",
     "prettier": "^3.0.0"
+  },
+  "volta": {
+    "node": "20.11.1",
+    "npm": "10.2.4"
   },
   "lint-staged": {
     "package.json": [
