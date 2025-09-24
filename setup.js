@@ -33,15 +33,28 @@ if (fs.existsSync(packageJsonPath)) {
   }
 }
 
-// Add quality automation scripts
+// Add quality automation scripts (conservative: do not overwrite existing)
 console.log('📝 Adding quality automation scripts...')
-packageJson.scripts = {
-  ...packageJson.scripts,
-  prepare: 'husky install',
-  'format': 'prettier --write .',
-  'format:check': 'prettier --check .',
-  'lint': 'eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint "**/*.{css,scss}"',
-  'lint:fix': 'eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint "**/*.{css,scss}" --fix'
+packageJson.scripts = packageJson.scripts || {}
+// prepare: ensure husky install is present
+if (!packageJson.scripts.prepare) {
+  packageJson.scripts.prepare = 'husky install'
+} else if (!packageJson.scripts.prepare.includes('husky install')) {
+  packageJson.scripts.prepare += ' && husky install'
+}
+// format scripts
+if (!packageJson.scripts['format']) {
+  packageJson.scripts['format'] = 'prettier --write .'
+}
+if (!packageJson.scripts['format:check']) {
+  packageJson.scripts['format:check'] = 'prettier --check .'
+}
+// lint scripts with allow-empty-input
+if (!packageJson.scripts['lint']) {
+  packageJson.scripts['lint'] = 'eslint . --ext .js,.jsx,.ts,.tsx,.html && stylelint "**/*.{css,scss}" --allow-empty-input'
+}
+if (!packageJson.scripts['lint:fix']) {
+  packageJson.scripts['lint:fix'] = 'eslint . --ext .js,.jsx,.ts,.tsx,.html --fix && stylelint "**/*.{css,scss}" --fix --allow-empty-input'
 }
 
 // Add devDependencies
@@ -152,7 +165,24 @@ if (!fs.existsSync(eslintignorePath)) {
     'utf8'
   )
   fs.writeFileSync(eslintignorePath, templateEslintIgnore)
-  console.log('✅ Added ESLint ignore file')
+console.log('✅ Added ESLint ignore file')
+}
+
+// Ensure Husky pre-commit hook runs lint-staged
+try {
+  const huskyDir = path.join(process.cwd(), '.husky')
+  if (!fs.existsSync(huskyDir)) {
+    fs.mkdirSync(huskyDir, { recursive: true })
+  }
+  const preCommitPath = path.join(huskyDir, 'pre-commit')
+  if (!fs.existsSync(preCommitPath)) {
+    const hook = '#!/bin/sh\n. "$(dirname "$0")/_/husky.sh"\n\n# Run lint-staged on staged files\n npx --no -- lint-staged\n'
+    fs.writeFileSync(preCommitPath, hook)
+    fs.chmodSync(preCommitPath, 0o755)
+    console.log('✅ Added Husky pre-commit hook (lint-staged)')
+  }
+} catch (e) {
+  console.warn('⚠️ Could not create Husky pre-commit hook:', e.message)
 }
 
 // Ensure engines/volta pins in target package.json (non-destructive)
