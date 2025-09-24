@@ -37,13 +37,20 @@ A comprehensive, reusable template for setting up quality automation in any proj
    cp -r quality-automation-template/.github ./
    cp quality-automation-template/.prettierrc ./
    cp quality-automation-template/.prettierignore ./
+   cp quality-automation-template/.eslintrc.json ./
+   cp quality-automation-template/.eslintignore ./
+   cp quality-automation-template/.stylelintrc.json ./
+   cp quality-automation-template/.nvmrc ./
+   cp quality-automation-template/.npmrc ./
    ```
 
-2. **Update your package.json** (add the scripts and dependencies from the template)
+2. **Update your package.json**
+   - Add the scripts (`format`, `format:check`, `lint`, `lint:fix`)
+   - Add `lint-staged` with ESLint/Stylelint as shown below
 
 3. **Install and setup:**
    ```bash
-   npm install
+   npm install --save-dev prettier eslint stylelint stylelint-config-standard husky lint-staged
    npm run prepare
    ```
 
@@ -101,17 +108,21 @@ Conservative behavior:
 
 ## 🔧 Customization
 
-### Adding ESLint
-1. Install ESLint: `npm install --save-dev eslint`
-2. Update `.github/workflows/quality.yml`:
-   ```yaml
-   - name: Run ESLint
-     run: npx eslint . --ext .js,.jsx,.ts,.tsx
-   ```
-3. Update `lint-staged` in `package.json`:
-   ```json
-   "**/*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"]
-   ```
+### Extending ESLint/Stylelint
+- ESLint rules live in `.eslintrc.json`; example to enforce no-console:
+  ```json
+  {
+    "extends": ["eslint:recommended"],
+    "rules": { "no-console": "warn" }
+  }
+  ```
+- Stylelint rules live in `.stylelintrc.json`; example to relax specificity:
+  ```json
+  {
+    "extends": ["stylelint-config-standard"],
+    "rules": { "no-descending-specificity": null }
+  }
+  ```
 
 ### Adding TypeScript Support
 1. Install TypeScript: `npm install --save-dev typescript`
