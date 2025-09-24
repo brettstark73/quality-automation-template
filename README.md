@@ -69,6 +69,10 @@ your-project/
   - `package.json` → `engines.node ">=20"` and Volta pin for Node/npm
   - `.npmrc` → `engine-strict = true` to enforce engine checks
 
+Conservative behavior:
+- The setup script adds engines/Volta pins if they are missing, but does not overwrite your existing values.
+- This avoids unexpectedly changing repos already pinned to another Node version.
+
 
 ### Prettier Configuration (`.prettierrc`)
 ```json
@@ -88,8 +92,8 @@ your-project/
 {
   "lint-staged": {
     "package.json": ["prettier --write"],
-    "**/*.{js,jsx,ts,tsx}": ["prettier --write"],
-    "**/*.{html,css,scss}": ["prettier --write"],
+    "**/*.{js,jsx,ts,tsx,html}": ["eslint --fix", "prettier --write"],
+    "**/*.{css,scss}": ["stylelint --fix", "prettier --write"],
     "**/*.{json,md,yml,yaml}": ["prettier --write"]
   }
 }
