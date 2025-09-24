@@ -46,7 +46,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "**/*.css": [
+    "**/*.{css,scss}": [
       "stylelint --fix",
       "prettier --write"
     ],

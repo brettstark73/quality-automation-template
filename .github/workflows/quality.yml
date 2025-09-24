@@ -21,7 +21,13 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci
+        else
+          echo "No package-lock.json found; running npm install"
+          npm install
+        fi
       
     - name: Prettier check
       run: npm run format:check

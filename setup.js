@@ -69,6 +69,19 @@ packageJson['lint-staged'] = {
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
 console.log('✅ Updated package.json')
 
+// Ensure Node toolchain pinning in target project
+const nvmrcPath = path.join(process.cwd(), '.nvmrc')
+if (!fs.existsSync(nvmrcPath)) {
+  fs.writeFileSync(nvmrcPath, '20\n')
+  console.log('✅ Added .nvmrc (Node 20)')
+}
+
+const npmrcPath = path.join(process.cwd(), '.npmrc')
+if (!fs.existsSync(npmrcPath)) {
+  fs.writeFileSync(npmrcPath, 'engine-strict = true\n')
+  console.log('✅ Added .npmrc (engine-strict)')
+}
+
 // Create .github/workflows directory if it doesn't exist
 const workflowDir = path.join(process.cwd(), '.github', 'workflows')
 if (!fs.existsSync(workflowDir)) {
@@ -140,6 +153,17 @@ if (!fs.existsSync(eslintignorePath)) {
   )
   fs.writeFileSync(eslintignorePath, templateEslintIgnore)
   console.log('✅ Added ESLint ignore file')
+}
+
+// Ensure engines/volta pins in target package.json (non-destructive)
+try {
+  const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  pkg.engines = { node: '>=20', ...(pkg.engines || {}) }
+  pkg.volta = { node: '20.11.1', npm: '10.2.4', ...(pkg.volta || {}) }
+  fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2))
+  console.log('✅ Ensured engines and Volta pins in package.json')
+} catch (e) {
+  console.warn('⚠️ Could not update engines/volta in package.json:', e.message)
 }
 
 console.log('\n🎉 Quality automation setup complete!')
