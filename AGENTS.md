@@ -1,35 +1,29 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-- Root hosts `setup.js` (Node-based bootstrapper) and `package.json` templates the target project with Husky, lint-staged, and quality configs.
-- Configuration files (`.prettierrc`, `.eslintrc.json`, `.stylelintrc.json`, ignore lists) define the baseline style enforced by the setup script.
-- GitHub Actions workflow lives in `.github/workflows/quality.yml`; adjust this file to extend CI checks.
-- Template docs reside in `README.md`; keep it aligned with any workflow or tooling changes.
+## Structure & Scope
+- `setup.js` is the published CLI (`create-quality-automation`) used via `npx`; it detects `--update`, TypeScript presence, and writes configs idempotently.
+- `config/defaults.js` centralises script, dependency, and lint-staged templates; adjust versions there first.
+- Flat ESLint configs (`eslint.config.cjs`, `eslint.config.ts.cjs`), `.editorconfig`, Stylelint/Prettier files, and `.husky/` assets ship with the npm package (see `package.json:files`).
+- Documentation lives in `README.md` and `CHANGELOG.md`; keep both aligned with any behavioural change.
 
-## Build, Test, and Development Commands
-- `npm run setup` — runs the bootstrap script against the current repo.
-- `npm run prepare` — installs Husky hooks; run after dependency installs.
-- `npm run format` / `npm run format:check` — applies or verifies Prettier formatting.
-- `npm run lint` / `npm run lint:fix` — executes ESLint on JS/TS/HTML and Stylelint on CSS/SCSS; `lint:fix` auto-corrects when possible.
-- `npm test` — placeholder; replace with your project’s test runner and keep CI in sync.
+## Development & QA Commands
+- `npm test` runs the integration smoke tests for both JS and TS fixtures; add scenarios here before modifying setup behaviour.
+- `npm run lint`, `npm run lint:fix`, `npm run format`, and `npm run format:check` keep sources consistent.
+- `npm run setup` executes the CLI against the repo itself for manual verification; prefer this plus `npm test` before releases.
+- Use `npm pack` to inspect the publishable tarball locally.
 
-## Coding Style & Naming Conventions
-- Prettier enforces 2-space indentation, single quotes, no semicolons, 80-character wrap, `trailingComma: es5`, and `arrowParens: avoid`.
-- ESLint extends `eslint:recommended`; add rule adjustments in `.eslintrc.json` rather than per-file overrides.
-- Stylelint extends `stylelint-config-standard`; prefer BEM-style class names for clarity in shared CSS.
-- Commit hook runs lint-staged; keep staged changes passing format/lint before committing.
+## Coding Standards
+- ESLint uses flat config; edit rule sets inside `eslint.config.cjs` (and `eslint.config.ts.cjs` for TS-specific tweaks) instead of per-file overrides.
+- Prettier dictates 2-space, single quotes, 80 line width; Stylelint extends `stylelint-config-standard`.
+- Maintain idempotent behaviour in `setup.js`; any new file copy or script mutation must safely merge with existing consumer state.
 
-## Testing Guidelines
-- Configure your preferred framework (Jest, Vitest, Playwright, etc.) and wire it to `npm test` for local use and CI reuse.
-- Name test files `<component>.test.{js,ts}` alongside source or within a `__tests__` directory for larger modules.
-- Target meaningful coverage of quality automation scripts and custom workflow steps when they exist.
+## Release Process
+- Update `CHANGELOG.md` and bump `package.json`/`package-lock.json` versions via `npm version`.
+- Run `npm test`, `npm run lint`, and `npm run format:check` before tagging.
+- Tag the release (`git tag vX.Y.Z`) and push tags; publish with `npm publish --access public`.
+- Announce new usage (e.g., `npx create-quality-automation@latest --update`) in README when behaviour shifts.
 
-## Commit & Pull Request Guidelines
-- Follow the existing history pattern: `Type: concise summary` (e.g., `Docs: clarify setup fallback`). Optional scopes belong before the colon.
-- Keep commits focused on a single concern; run formatting/linting before staging.
-- Pull requests must describe the motivation, summarize key changes, list verification steps (commands run, screenshots if UI), and reference related issues.
-- Ensure CI passes on the feature branch before requesting review; include notes for follow-up work when deferring tasks.
-
-## Automation & CI Notes
-- Quality workflow pins Node 20 with npm cache; update both `volta` and `.nvmrc` if versions change.
-- CI runs Prettier, ESLint (`--max-warnings=0`), Stylelint, and a non-blocking `npm audit`; extend here for project-specific tests or type checks.
+## Pull Request Expectations
+- Keep commits focused; follow the conventional summary style (`Template: …`, `Docs: …`).
+- Document validation steps (commands run, npm pack hash) in PR descriptions.
+- Note optional clean-up, like removing `.eslintignore` when consumers fully adopt flat config, rather than forcing it.
