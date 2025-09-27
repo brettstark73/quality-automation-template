@@ -6,6 +6,18 @@
 - Flat ESLint configs (`eslint.config.cjs`, `eslint.config.ts.cjs`), `.editorconfig`, Stylelint/Prettier files, and `.husky/` assets ship with the npm package (see `package.json:files`).
 - Documentation lives in `README.md` and `CHANGELOG.md`; keep both aligned with any behavioural change.
 
+## CLI & Tooling Conventions
+- Run shell commands through the Codex CLI harness; prefix with `bash -lc` and always set the `workdir` parameter.
+- Prefer `rg`/`rg --files` for repo searches; fall back to other tools only when ripgrep is unavailable.
+- Honour the current sandbox (`workspace-write`) and approval policy (`on-request`); request elevation with a one-line justification when command failures require it.
+- Network access is restricted; avoid commands that need outbound calls unless explicitly approved.
+
+## Editing Constraints
+- Default to ASCII output; only add non-ASCII when necessary and consistent with the target file.
+- Add comments sparingly and only to clarify non-obvious logic.
+- Never revert user-authored changes that you did not make; if unexpected diffs appear, pause and ask the user how to proceed.
+- Maintain idempotent behaviour in `setup.js`; new scripts or file writes must merge safely with existing consumer state.
+
 ## Development & QA Commands
 - `npm test` runs the integration smoke tests for both JS and TS fixtures; add scenarios here before modifying setup behaviour.
 - `npm run lint`, `npm run lint:fix`, `npm run format`, and `npm run format:check` keep sources consistent.
@@ -27,3 +39,9 @@
 - Keep commits focused; follow the conventional summary style (`Template: …`, `Docs: …`).
 - Document validation steps (commands run, npm pack hash) in PR descriptions.
 - Note optional clean-up, like removing `.eslintignore` when consumers fully adopt flat config, rather than forcing it.
+
+## Planning & Communication
+- Skip the plan tool for straightforward tasks; when you do plan, avoid single-step plans and keep status updates in sync with progress.
+- Follow final-response formatting: concise bullet-first updates, inline code references (`path:line`), and actionable next steps when relevant.
+- Summarise command output rather than pasting raw logs; highlight only the details the user needs.
+- Keep the tone collaborative and professional; ask clarifying questions only when the task cannot proceed with available information.
