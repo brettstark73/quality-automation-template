@@ -20,6 +20,7 @@
 - Add comments sparingly and only to clarify non-obvious logic.
 - Never revert user-authored changes that you did not make; if unexpected diffs appear, pause and ask the user how to proceed.
 - Maintain idempotent behaviour in `setup.js`; new scripts or file writes must merge safely with existing consumer state.
+- Never overwrite consumer metadata when parsing fails; surface the error and exit rather than regenerating files like `package.json`.
 
 ## Development & QA Commands
 
