@@ -1,7 +1,7 @@
 {
   "name": "create-quality-automation",
-  "version": "1.1.0",
-  "description": "Bootstrap quality automation with GitHub Actions, Husky, lint-staged, and Prettier for any project",
+  "version": "2.0.0",
+  "description": "Bootstrap quality automation for JavaScript, TypeScript, and Python projects with GitHub Actions, pre-commit hooks, linting, and formatting",
   "main": "setup.js",
   "bin": {
     "create-quality-automation": "./setup.js"
@@ -26,13 +26,21 @@
     "github-actions",
     "template",
     "bootstrap",
-    "scaffold"
+    "scaffold",
+    "python",
+    "javascript",
+    "typescript",
+    "black",
+    "ruff",
+    "multi-language"
   ],
   "author": "Brett Stark",
   "license": "MIT",
   "files": [
     "setup.js",
+    "lib/",
     "config/",
+    "templates/",
     ".github/",
     ".prettierrc",
     ".prettierignore",

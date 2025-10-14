@@ -1,25 +1,27 @@
 # Create Quality Automation 🚀
 
-Bootstrap quality automation in any project with GitHub Actions, Husky pre-commit hooks, lint-staged, and Prettier formatting. Modern ESLint 9 flat config with automatic TypeScript support.
+Bootstrap quality automation in any project with GitHub Actions, pre-commit hooks, linting, and code formatting. **Now supports JavaScript, TypeScript, AND Python!**
 
 ## ✨ Features
 
-- **🔧 Prettier Code Formatting** - Consistent code style across your project
-- **🪝 Husky Pre-commit Hooks** - Automatic quality checks before commits
-- **⚡ Lint-staged Processing** - Only process changed files for speed
-- **🤖 GitHub Actions** - Automated quality checks in CI/CD
+- **🌐 Multi-Language Support** - JavaScript, TypeScript, and Python in one tool
+- **🔧 Automatic Detection** - Detects your project type and configures accordingly
+- **🪝 Pre-commit Hooks** - Husky (JS/TS) or pre-commit (Python) - automatic quality checks
+- **⚡ Smart Processing** - Only process changed files for speed
+- **🤖 GitHub Actions** - Automated quality checks in CI/CD for all languages
 - **📦 One Command Setup** - `npx create-quality-automation@latest`
 - **🔄 TypeScript Smart** - Auto-detects and configures TypeScript projects
-- **🆕 Modern Tooling** - ESLint 9 flat config, Husky 9, latest dependencies
-- **🔒 Security Automation** - Blocking npm audit and hardcoded secrets scanning
+- **🐍 Python Modern** - Black, Ruff, isort, mypy with pyproject.toml
+- **🆕 Modern Tooling** - ESLint 9, Ruff, latest dependencies
+- **🔒 Security Automation** - npm audit and secrets scanning
 
 ## 🚀 Quick Start
 
-### For Any Project (Recommended)
+### For JavaScript/TypeScript Projects
 
 ```bash
 # Navigate to your project (must be a git repository)
-cd your-project/
+cd your-js-project/
 
 # Bootstrap quality automation
 npx create-quality-automation@latest
@@ -29,6 +31,41 @@ npm install
 
 # Set up pre-commit hooks
 npm run prepare
+```
+
+### For Python Projects
+
+```bash
+# Navigate to your Python project (must be a git repository)
+cd your-python-project/
+
+# Bootstrap quality automation
+npx create-quality-automation@latest
+
+# Install Python dependencies
+python3 -m pip install -r requirements-dev.txt
+
+# Set up pre-commit hooks
+pre-commit install
+```
+
+### For Multi-Language Projects
+
+The tool automatically detects both JavaScript/TypeScript AND Python and configures quality automation for both!
+
+```bash
+# Navigate to your polyglot project
+cd your-fullstack-project/
+
+# Bootstrap quality automation for all detected languages
+npx create-quality-automation@latest
+
+# JavaScript/TypeScript setup
+npm install && npm run prepare
+
+# Python setup
+python3 -m pip install -r requirements-dev.txt
+pre-commit install
 ```
 
 **That's it!** Your project now has comprehensive quality automation.
@@ -65,18 +102,39 @@ git add . && git commit -m "feat: initial commit with quality tools"
 
 ## 📁 What Gets Added to Your Project
 
+### JavaScript/TypeScript Projects
+
 ```
-your-project/
-├── .github/
-│   └── workflows/
-│       └── quality.yml          # GitHub Actions workflow
-├── .editorconfig              # Editor defaults
-├── eslint.config.cjs          # ESLint flat config (JS)
-├── .prettierrc               # Prettier configuration
-├── .prettierignore            # Files to ignore in formatting
-├── .husky/                     # Pre-commit hooks (created after setup)
-└── package.json                # Updated with scripts and dependencies
+your-js-project/
+├── .github/workflows/
+│   └── quality.yml              # GitHub Actions workflow
+├── .editorconfig                # Editor defaults
+├── eslint.config.cjs            # ESLint flat config
+├── .prettierrc                  # Prettier configuration
+├── .prettierignore              # Files to ignore
+├── .stylelintrc.json            # Stylelint config
+├── .husky/                      # Pre-commit hooks
+├── .nvmrc                       # Node version
+├── .npmrc                       # npm config
+└── package.json                 # Updated with scripts
 ```
+
+### Python Projects
+
+```
+your-python-project/
+├── .github/workflows/
+│   └── quality-python.yml       # GitHub Actions workflow
+├── .editorconfig                # Editor defaults
+├── pyproject.toml               # Black, Ruff, isort, mypy config
+├── .pre-commit-config.yaml      # Pre-commit hooks
+├── requirements-dev.txt         # Dev dependencies
+└── tests/                       # Test directory
+```
+
+### Multi-Language Projects
+
+Both sets of files are created, and package.json gets Python helper scripts!
 
 ## ⚙️ Configuration
 
@@ -169,13 +227,32 @@ The CLI scans your repository for existing CSS, Sass, Less, and PostCSS files so
 
 ## 📜 Available Scripts
 
-After setup, your project will have these scripts:
+### JavaScript/TypeScript Projects
 
 - `npm run format` - Format all files with Prettier
 - `npm run format:check` - Check if files are formatted (used in CI)
 - `npm run prepare` - Set up Husky hooks (run after npm install)
-- `npm run lint` / `npm run lint:fix` - ESLint flat config (auto-extending to TS) + Stylelint
-- `npm test` - Runs the bootstrap regression test (customize per project)
+- `npm run lint` / `npm run lint:fix` - ESLint + Stylelint
+- `npm test` - Runs tests (customize per project)
+
+### Python Projects
+
+- `black .` - Format all Python files
+- `black --check .` - Check formatting
+- `ruff check .` - Lint Python code
+- `ruff check --fix .` - Auto-fix linting issues
+- `isort .` - Sort imports
+- `mypy .` - Type checking
+- `pytest` - Run tests
+- `pre-commit run --all-files` - Run all pre-commit hooks
+
+### Multi-Language Projects
+
+When both JavaScript and Python are detected, package.json includes helper scripts:
+
+- `npm run python:format` - Format Python code
+- `npm run python:lint` - Lint Python code
+- `npm run python:quality` - Run all Python quality checks
 
 ## 🤖 GitHub Actions Workflow
 
