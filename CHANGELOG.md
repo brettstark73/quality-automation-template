@@ -9,6 +9,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.0] - 2025-10-14
+
+### 🎉 MAJOR RELEASE: Multi-Language Support
+
+#### Added
+
+- **🐍 Python Support**: Full quality automation for Python projects
+  - Black code formatting (88 char line length)
+  - Ruff modern linting (replaces flake8/pylint)
+  - isort import sorting
+  - mypy type checking
+  - pytest testing framework
+  - pre-commit hooks framework
+  - GitHub Actions workflow for Python CI
+- **🔍 Automatic Language Detection**: Intelligently detects project languages
+  - JavaScript/Node.js detection (package.json)
+  - TypeScript detection (tsconfig.json or dependency)
+  - Python detection (requirements.txt, pyproject.toml, setup.py, etc.)
+  - Multi-language project support (e.g., Python backend + JS frontend)
+- **📁 Modular Architecture**: Language-specific configuration modules
+  - `lib/detectors.js` - Smart language detection
+  - `config/languages/javascript.js` - JS/TS configurations
+  - `config/languages/python.js` - Python configurations
+- **🎯 Python Project Files Created**:
+  - `pyproject.toml` - Tool configurations (Black, Ruff, isort, mypy, pytest)
+  - `.pre-commit-config.yaml` - Git hooks setup
+  - `requirements-dev.txt` - Development dependencies
+  - `.github/workflows/quality-python.yml` - CI/CD workflow
+  - `tests/` - Test directory structure
+
+#### Changed
+
+- **Complete Refactor**: `setup.js` rewritten for multi-language routing
+- **Enhanced Detection**: Supports Rust and Go detection (foundation for future support)
+- **Smart Setup**: Automatically configures based on detected languages
+- **Multi-Language Projects**: When both JS and Python detected, sets up both with cross-language npm scripts
+
+#### Features
+
+- **Backward Compatible**: Existing JavaScript/TypeScript projects work unchanged
+- **CLI Options**: `--no-install` flag to skip Python dependency installation
+- **Comprehensive Workflows**: Separate GitHub Actions for JS and Python quality checks
+- **Pre-commit Integration**: Python uses pre-commit framework, JS uses Husky
+
+#### Documentation
+
+- Updated README with Python examples and multi-language setup
+- Added Python-specific configuration documentation
+- Enhanced feature list highlighting multi-language support
+
+#### Technical
+
+- Package files now include `lib/` and `templates/` directories
+- Version bump from 1.1.0 → 2.0.0 (breaking architecture changes)
+- New keywords: python, javascript, typescript, black, ruff, multi-language
+- Updated description to reflect multi-language capabilities
+
+---
+
 ## [1.1.0] - 2025-09-27
 
 ### Added
